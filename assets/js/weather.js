@@ -23,19 +23,23 @@ let loadDayForecastData = () => {
 let loadWeekForecastData = () => {
 	let {city_code,city, date, maxtemperature, mintemperature,
         cloudiness, wind, rainfall, forecast_today,forecast_week}=weather_data[0];
-    let {day:dayFW, text:textFW, date:dateFW, temperature:temperaturaFW,icon}=forecast_week[0];
+   
     let forecastWeek = document.getElementsByClassName("list-group");
-
-    forecastWeek.innerHTML= `<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-    <div class="d-flex flex-column">
-      <h6 class="mb-1 text-dark font-weight-bold text-sm">${textFW}</h6>
-      <span class="text-xs">${dateFW}</span>
-    </div>
-    <div class="d-flex align-items-center ">
-      <span class="font-weight-bold text-dark mx-2">${temperaturaFW.max}</span> |  <span class="text-dark mx-2">${temperaturaFW.min}</span>
-      <div class="ms-4"><i class="material-icons fs-2 me-1 rainy">water_drop</i></div>
-    </div>
-  </li>`
+    let elementoLista=(n)=>{
+        let {day:dayFW, text:textFW, date:dateFW, temperature:temperaturaFW,icon}=forecast_week[n];
+        return  `<li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+        <div class="d-flex flex-column">
+          <h6 class="mb-1 text-dark font-weight-bold text-sm">${textFW}</h6>
+          <span class="text-xs">${dateFW}</span>
+        </div>
+        <div class="d-flex align-items-center ">
+          <span class="font-weight-bold text-dark mx-2">${temperaturaFW.max}</span> |  <span class="text-dark mx-2">${temperaturaFW.min}</span>
+          <div class="ms-4"><i class="material-icons fs-2 me-1 rainy">water_drop</i></div>
+        </div>
+      </li> `
+    }
+    forecastWeek.add(elementoLista(0));
+    
 }
 
 
