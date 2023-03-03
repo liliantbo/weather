@@ -3,7 +3,7 @@ import { weather_data } from './data.js';
 
 let loadDayForecastData = () => {
 	let {city_code,city, date, maxtemperature, mintemperature,
-         cloudiness, wind, rainfall, forecast_today, ...otros }=weather_data[0];
+         cloudiness, wind, rainfall, forecast_today, ...otros }=climaPorCiudad();
     let ciudad =document.getElementById( "city" ); 
     let fecha =document.getElementById( "date" );
     let maxTemp =document.getElementById( "maxtemperature" );
@@ -41,8 +41,8 @@ let loadDayForecastData = () => {
 
 function loadWeekForecastData() {
   let forecastList =  document.getElementsByClassName("list-group")[0];
-
-    let forecastWeek = weather_data[0].forecast_week;
+  forecastList.innerHTML = '';
+    let forecastWeek = climaPorCiudad().forecast_week;
     forecastWeek.forEach((forecast) => {
       let listItem = `
         <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -60,6 +60,11 @@ function loadWeekForecastData() {
     });
 }
 
+function climaPorCiudad() {
+  let select = document.getElementById("dropdownMenuButton");
+  let ciudad = select.value?select.value:"Guayaquil";
+  return weather_data.find(item => item.city.toLowerCase() === ciudad.toLowerCase());
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   loadDayForecastData();
@@ -68,4 +73,21 @@ document.addEventListener('DOMContentLoaded', function() {
 let loadBtn = document.getElementById('loadinfo');
 loadBtn.addEventListener('click', function() {
   loadWeekForecastData();
+});
+
+
+var dropdown = document.getElementById("dropdownMenuButton");
+
+weather_data.forEach((item) => {
+  let option = document.createElement("option");
+  option.value = item.city.toLowerCase();
+  option.text = item.city;
+  dropdown.add(option);
+});
+
+dropdown.addEventListener("change", function() {
+  // aquí puedes escribir el código que se ejecutará cuando se seleccione una opción
+  loadDayForecastData();
+  let forecastList =  document.getElementsByClassName("list-group")[0];
+  forecastList.innerHTML = '';
 });
